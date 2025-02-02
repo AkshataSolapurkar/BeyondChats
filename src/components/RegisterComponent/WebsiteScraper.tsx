@@ -89,7 +89,7 @@ export default function WebsiteScanner({ handleNextStep }: WebsiteScannerProps) 
       const timer = setTimeout(() => {
         setTrainingComplete(true)
         setIsTraining(false)
-        router.push("/preview")
+        router.push("/testIntegrate")
       }, 20000)
       return () => clearTimeout(timer)
     }
@@ -122,7 +122,7 @@ export default function WebsiteScanner({ handleNextStep }: WebsiteScannerProps) 
   }
 
   return (
-    <div className="max-w-4xl mx-auto py-5 px-8 space-y-8">
+    <div className="max-w-4xl mx-auto py-5 md:py-0 px-8 space-y-8 md:space-y-3">
       {!isTraining && (
         <>
           <div className="flex justify-center">
@@ -138,7 +138,7 @@ export default function WebsiteScanner({ handleNextStep }: WebsiteScannerProps) 
               )}
             </Button>
           </div>
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 md:gap-2">
             <div className="flex justify-center gap-1">
               <Button
                 variant="outline"

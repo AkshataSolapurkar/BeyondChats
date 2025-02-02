@@ -9,7 +9,7 @@ import { TypeAnimation } from "react-type-animation"
 import { X } from "lucide-react"
 
 export default function PreviewBox() {
-  const [isChatbotExpanded, setIsChatbotExpanded] = useState(false)
+  const [isChatbotExpanded, setIsChatbotExpanded] = useState(true)
   const [messages, setMessages] = useState<Array<{ text: string; sender: "bot" | "user" }>>([])
   const [inputMessage, setInputMessage] = useState("")
   const [isTyping, setIsTyping] = useState(false)
