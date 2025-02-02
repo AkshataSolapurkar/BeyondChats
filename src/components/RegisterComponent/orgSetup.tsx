@@ -80,64 +80,103 @@ const OrgSetup: React.FC<OrgSetupProps> = ({ handleNextStep }) => {
 
   return (
     <div className="max-w-3xl mx-auto relative min-h-[400px] p-4">
-      <h2 className="text-2xl font-semibold mb-2 text-gray-800">Help us understand your offering</h2>
-      <p className="text-gray-600 mb-8">Choose a source to gather your value proposition info</p>
+      <h2 className="md:text-2xl text-xl text-center md:text-left font-semibold mb-2 text-gray-800">
+        Help us understand your offering
+      </h2>
+      <p className="text-gray-600 text-center md:text-left md:mb-8 mb-4">
+        Choose a source to gather your value proposition info
+      </p>
 
+      {/* Grid of cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         {sources.map((source) => {
           const Icon = source.icon
           return (
-            <button
-              key={source.id}
-              onClick={() => {
-                setSelectedSource(source.id as SourceType)
-              }}
-              className={`
-                p-8 rounded-2xl transition-all duration-200 text-center
-                ${
-                  selectedSource === source.id
-                    ? "bg-blue-50 border-blue-200"
-                    : "bg-gray-50 hover:bg-gray-100 border-transparent"
-                }
-                border-2
-              `}
-            >
-              <div className="flex justify-center mb-4">
-                <div className="p-4 rounded-2xl bg-white">
-                  <Icon className="w-6 h-6 text-gray-600" />
+            <div key={source.id}>
+              <button
+                onClick={() => {
+                  setSelectedSource(source.id as SourceType)
+                }}
+                className={`
+                  p-8 rounded-2xl transition-all duration-200 text-center w-full
+                  ${
+                    selectedSource === source.id
+                      ? "bg-blue-50 border-blue-200"
+                      : "bg-gray-50 hover:bg-gray-100 border-transparent"
+                  }
+                  border-2
+                `}
+              >
+                <div className="flex justify-center mb-4">
+                  <div className="p-4 rounded-2xl bg-white">
+                    <Icon className="w-6 h-6 text-gray-600" />
+                  </div>
                 </div>
+                <h3 className="text-lg font-medium mb-1 text-gray-800">
+                  {source.title}
+                </h3>
+                <p className="text-sm text-gray-500">{source.description}</p>
+              </button>
+
+              {/* Inline input for small screens */}
+              <div className="md:hidden">
+                <AnimatePresence>
+                  {selectedSource === source.id && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="bg-white rounded-xl border border-blue-200 p-2 mt-2">
+                        <div className="flex items-center gap-2">
+                          <LinkIcon className="w-5 h-5 text-gray-400" />
+                          <Input
+                            type="text"
+                            placeholder={source.placeholder}
+                            value={inputValues[source.id] || ""}
+                            onChange={(e) => handleInputChange(e.target.value)}
+                            className="border-0 focus-visible:ring-0 text-gray-600 placeholder:text-gray-400"
+                          />
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              <h3 className="text-lg font-medium mb-1 text-gray-800">{source.title}</h3>
-              <p className="text-sm text-gray-500">{source.description}</p>
-            </button>
+            </div>
           )
         })}
       </div>
 
-      <AnimatePresence>
-        {selectedSource && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-          >
-            <div className="bg-white rounded-xl border border-blue-200 p-2 mb-6">
-              <div className="flex items-center gap-2">
-                <LinkIcon className="w-5 h-5 text-gray-400" />
-                <Input
-                  type="text"
-                  placeholder={getPlaceholder()}
-                  value={inputValues[selectedSource] || ""}
-                  onChange={(e) => handleInputChange(e.target.value)}
-                  className="border-0 focus-visible:ring-0 text-gray-600 placeholder:text-gray-400"
-                />
+      {/* Global input for medium and larger screens */}
+      <div className="hidden md:block">
+        <AnimatePresence>
+          {selectedSource && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="overflow-hidden mb-6"
+            >
+              <div className="bg-white rounded-xl border border-blue-200 p-2">
+                <div className="flex items-center gap-2">
+                  <LinkIcon className="w-5 h-5 text-gray-400" />
+                  <Input
+                    type="text"
+                    placeholder={getPlaceholder()}
+                    value={inputValues[selectedSource] || ""}
+                    onChange={(e) => handleInputChange(e.target.value)}
+                    className="border-0 focus-visible:ring-0 text-gray-600 placeholder:text-gray-400"
+                  />
+                </div>
               </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
 
       <div className="flex justify-center">
         <Button
@@ -158,4 +197,3 @@ const OrgSetup: React.FC<OrgSetupProps> = ({ handleNextStep }) => {
 }
 
 export default OrgSetup
-

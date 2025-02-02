@@ -4,16 +4,17 @@ import AuthForm from "@/components/authcomponents/authform";
 export default function Home() {
   return (
     <div className="min-h-screen w-full relative flex flex-col lg:flex-row">
-       {/* Right Section (Auth Form) */}
-       <AuthForm
+      {/* Right Section (Auth Form) */}
+      <AuthForm
         buttonText="Sign Up"
-        descriptionText="Enter Details Below to Registor"
-        signupText="Have a account?"
+        descriptionText="Enter Details Below to Register"
+        signupText="Have an account?"
         signupLink="/login"
         logintext="Login"
+        buttonlinks="/"
       />
       {/* Left Section */}
-      <div className="flex-1 flex items-center justify-center p-8 lg:p-16">
+      <div className="flex-1 md:flex hidden items-center  justify-center p-8 lg:p-16">
         <GridBackground />
         <div className="max-w-2xl w-full">
           <div className="backdrop-blur-md bg-white/10 p-8 md:p-12 shadow-lg">

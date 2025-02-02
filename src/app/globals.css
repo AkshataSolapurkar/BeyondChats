@@ -86,5 +86,7 @@ body {
     transform: translateY(-50%);
     top: 50%;
   }
-  
+  .gradient {
+    background: linear-gradient(135deg, rgb(254, 226, 226), rgb(255, 241, 242), rgb(243, 232, 255));
+  }
 }

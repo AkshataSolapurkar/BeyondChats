@@ -1,6 +1,10 @@
+"use client";
 import Image from "next/image";
-import dummylogo from "../../../public/dummy logo.jpg"
+import dummylogo from "../../../public/dummy logo.jpg";
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 interface AuthFormProps {
   buttonText: string;
   descriptionText: string;
@@ -16,21 +20,43 @@ export default function AuthForm({
   signupText,
   logintext,
   signupLink,
-  buttonlinks
+  buttonlinks,
 }: AuthFormProps) {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !password) {
+      setError("Both email and password are required.");
+      return;
+    }
+    // Proceed with form submission or navigation
+    router.push("/");
+  };
+
   return (
-    <div className="w-full text-black lg:w-1/2 flex flex-col bg-white p-8">
-      <Image src={dummylogo} alt="logo" width={90} height={90} className="text-left" />
+    <div className="w-full text-black lg:w-1/2 flex flex-col bg-white md:p-8 py-8 px-3">
+      <Image
+        src={dummylogo}
+        alt="logo"
+        width={90}
+        height={90}
+        className="text-left"
+      />
       <div className="w-full flex flex-col py-10 px-8">
         <h1 className="text-4xl text-black font-bold mb-2">Hey, Hello 👋</h1>
         <p className="text-gray-600 mb-[10%]">{descriptionText}</p>
 
-        <div className="flex flex-col gap-5">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <div>
             <label className="text-sm mb-1 font-medium">Email</label>
             <input
               type="email"
-              placeholder=""
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -38,24 +64,29 @@ export default function AuthForm({
             <label className="text-sm mb-1 font-medium">Password</label>
             <input
               type="password"
-              placeholder=""
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
+          {error && <p className="text-red-500">{error}</p>}
           <div className="flex items-center justify-between">
             <label className="flex items-center">
               <input type="checkbox" className="peer hidden" />
               <div className="h-4 w-4 rounded-md border border-gray-300 peer-checked:bg-gradient-to-r peer-checked:from-[#5cabf9] peer-checked:via-[#5e7ef9] peer-checked:to-[#9b8cfb]" />
               <span className="ml-2 text-sm text-gray-600">Remember me</span>
             </label>
-            <a href="#" className="text-sm text-blue-600 hover:underline">Forgot password?</a>
+            <a href="#" className="text-sm text-blue-600 hover:underline">
+              Forgot password?
+            </a>
           </div>
-          <Link href="/userRegister">
-            <button className="w-full bg-gradient-to-r from-[#5cabf9] via-[#5e7ef9] to-[#9b8cfb] hover:opacity-90 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300">
-              {buttonText}
-            </button>
-          </Link>
-        </div>
+          <button
+            type="submit"
+            className="w-full bg-gradient-to-r from-[#5cabf9] via-[#5e7ef9] to-[#9b8cfb] hover:opacity-90 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+          >
+            {buttonText}
+          </button>
+        </form>
 
         <div className="mt-6 text-center">
           <span className="text-gray-600">or</span>

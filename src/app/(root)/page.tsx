@@ -5,26 +5,22 @@ import { useRouter } from 'next/navigation';
 
 export default function Home() {
     const router = useRouter();
-    const [hasVisited, setHasVisited] = useState(false);
+    const [isRedirecting, setIsRedirecting] = useState(true);
 
     useEffect(() => {
-        const visited = sessionStorage.getItem('visited');
-        if (!visited) {
+        const hasVisited = sessionStorage.getItem('visited');
+
+        if (!hasVisited) {
             sessionStorage.setItem('visited', 'true');
-            router.push('/login');
+            router.replace('/login'); // First visit -> redirect to /login
         } else {
-            setHasVisited(true);
+            router.replace('/setupOrg'); // Subsequent visits -> redirect to /setupOrg
         }
     }, [router]);
 
-    if (!hasVisited) {
-        return null;
+    if (isRedirecting) {
+        return null; // Prevents flickering before redirection
     }
 
-    return (
-        <div className="container">
-            <h1>Dashboard</h1>
-            {/* Add your dashboard content here */}
-        </div>
-    );
+    return null;
 }
